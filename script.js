@@ -1,122 +1,152 @@
-document.getElementById("btn1").onclick = function() {one()};
-document.getElementById("btn2").onclick = function() {two()};
-document.getElementById("btn3").onclick = function() {three()};
-document.getElementById("btn4").onclick = function() {four()};
-document.getElementById("btn5").onclick = function() {five()};
-document.getElementById("btn6").onclick = function() {six()};
-document.getElementById("btn7").onclick = function() {seven()};
-document.getElementById("btn8").onclick = function() {eight()};
-document.getElementById("btn9").onclick = function() {nine()};
-document.getElementById("btn0").onclick = function() {zero()};
-document.getElementById("btndot").onclick = function() {dot()};
-document.getElementById("btnadd").onclick = function() {add()};
-document.getElementById("btnmin").onclick = function() {min()};
-document.getElementById("btnx").onclick = function() {xx()};
-document.getElementById("btndiv").onclick = function() {div()};
-document.getElementById("btnc").onclick = function() {clear()};
-document.getElementById("btnbck").onclick = function() {back()};
-document.getElementById("btneq").onclick = function() {equals()};
+let arg1 = '';
+let opr1 = [];
 
-let x = '';
+function calc(value) {
+    if (value == 'x' || value == '/' || value == '-' || value == '+') {
+        if (opr1.includes('x') || opr1.includes('/') || opr1.includes('-') || opr1.includes('+')) {
+            opr1.push(arg1);
+            operate();
+        }
 
-function one() {
-    x = x + 1;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+        else if (arg1 != '') {
+            opr1.push(arg1);
+        }
+        arg1 = '';
 
-function two() {
-    x = x + 2;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+        opr1.push(value);
 
-function three() {
-    x = x + 3;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+        document.getElementById('screentop').innerHTML = opr1.join(' ');
+        document.getElementById('screenbottom').innerHTML = ('');
+    }
 
-function four() {
-    x = x + 4;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+    else if (value == '=') {
+        opr1.push(arg1);
+        operate();
+    }
 
-function five() {
-    x = x + 5;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+    else if (value == 'c') {
+        arg1 = '';
+        opr1 = [];
+        document.getElementById('screentop').innerHTML = ('');
+        document.getElementById('screenbottom').innerHTML = ('');
+    }
 
-function six() {
-    x = x + 6;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+    else if (value == 'b') {
+        if (arg1 == '') {
+            return;
+        }
+        else{
+            arg1 = arg1.substring(0, arg1.length - 1);
+            document.getElementById('screenbottom').innerHTML = arg1;
+            console.log(arg1);
+        }
+    }
 
-function seven() {
-    x = x + 7;
-    document.getElementById("screenbottom").innerHTML = x;
-}
+    else if (value == '.') {
+        if (arg1.includes('.') == false) {
+            arg1 += value;
+            document.getElementById("screenbottom").innerHTML = arg1;
+        }
+    }
 
-function eight() {
-    x = x + 8;
-    document.getElementById("screenbottom").innerHTML = x;
-}
-
-function nine() {
-    x = x + 9;
-    document.getElementById("screenbottom").innerHTML = x;
-}
-
-function zero() {
-    x = x + 0;
-    document.getElementById("screenbottom").innerHTML = x;
-}
-
-function dot() {
-    if (x.includes('.') == false) {
-        x = x + '.';
-        document.getElementById("screenbottom").innerHTML = x;
+    else {
+        arg1 += value;
+        document.getElementById('screenbottom').innerHTML = arg1;
     }
 }
 
-function min() {
-    var firstNum = x;
-    x = ''
-    document.getElementById("screentop").innerHTML = firstNum + '-';
-    document.getElementById("screenbottom").innerHTML = '';
+
+function operate() {
+    if (opr1[1] == 'x') {
+        let ans1 = '';
+
+        ans1 = multiply(opr1[0], opr1[2]);
+
+        opr1 = [ans1];
+
+        arg1 = '';
+
+        document.getElementById('screentop').innerHTML = ('');
+
+        if (Number.isInteger(ans1) == false) {
+            document.getElementById('screenbottom').innerHTML = ans1.toFixed(4);
+        }
+        else {
+            document.getElementById('screenbottom').innerHTML = ans1;
+        }
+
+    }
+
+    else if (opr1[1] == '/') {
+        let ans1 = '';
+
+        ans1 = divide(opr1[0], opr1[2]);
+
+        opr1 = [ans1];
+
+        arg1 = '';
+
+        document.getElementById('screentop').innerHTML = ('');
+
+        if (Number.isInteger(ans1) == false) {
+            document.getElementById('screenbottom').innerHTML = ans1.toFixed(4);
+        }
+        else {
+            document.getElementById('screenbottom').innerHTML = ans1;
+        }
+    }
+
+    else if (opr1[1] == '+') {
+        let ans1 = '';
+
+        ans1 = add(opr1[0], opr1[2]);
+
+        opr1 = [ans1];
+
+        arg1 = '';
+
+        document.getElementById('screentop').innerHTML = ('');
+
+        if (Number.isInteger(ans1) == false) {
+            document.getElementById('screenbottom').innerHTML = ans1.toFixed(4);
+        }
+        else {
+            document.getElementById('screenbottom').innerHTML = ans1;
+        }
+    }
+
+    else if (opr1[1] == '-') {
+        let ans1 = '';
+
+        ans1 = subtract(opr1[0], opr1[2]);
+
+        opr1 = [ans1];
+
+        arg1 = '';
+
+        document.getElementById('screentop').innerHTML = ('');
+
+        if (Number.isInteger(ans1) == false) {
+            document.getElementById('screenbottom').innerHTML = ans1.toFixed(4);
+        }
+        else {
+            document.getElementById('screenbottom').innerHTML = ans1;
+        }
+    }
 }
 
-function add() {
-    var firstNum = x;
-    x = ''
-    document.getElementById("screentop").innerHTML = firstNum + '+';
-    document.getElementById("screenbottom").innerHTML = '';
+function multiply(a, b) {
+    return a * b;
 }
 
-function xx() {
-    var firstNum = x;
-    x = ''
-    document.getElementById("screentop").innerHTML = firstNum + 'x';
-    document.getElementById("screenbottom").innerHTML = '';
+function divide(a, b) {
+    return a / b;
 }
 
-function div() {
-    var firstNum = x;
-    x = '';
-    document.getElementById("screentop").innerHTML = firstNum + '/';
-    document.getElementById("screenbottom").innerHTML = '';
+function add(a, b) {
+    return parseInt(a) + parseInt(b);
 }
 
-function clear() {
-    x = '';
-    document.getElementById("screentop").innerHTML = '';
-    document.getElementById("screenbottom").innerHTML = '';
-}
-
-function back() {
-    x = x.substring(0, x.length - 1);
-    document.getElementById("screenbottom").innerHTML = x;
-}
-
-function equals() {
-    var secondNum = x;
-    var result = firstNum * secondNum;
-    document.getElementById("screenbottom").innerHTML = result;
+function subtract(a, b) {
+    return a - b;
 }

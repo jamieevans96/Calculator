@@ -1,5 +1,6 @@
 html {
-    background-color: rgb(215, 175, 175);
+    background: rgb(235,235,255);
+    background: linear-gradient(135deg, rgba(235,235,255,1) 0%, rgba(255,210,210,1) 100%);
 }
 
 #outer {
